@@ -157,13 +157,13 @@ print.chronicle <- function(x, ...){
 
 }
 
+
 only_errors <- function(.f, ...){
 
   rlang::try_fetch(
            rlang::eval_tidy(.f(...)),
            error = function(err) err,
            )
-
 }
 
 errors_and_warnings <- function(.f, ...){
@@ -173,20 +173,6 @@ errors_and_warnings <- function(.f, ...){
            error = function(err) err,
            warning = function(warn) warn,
            )
-}
-
-errors_and_inoffensive_warnings <- function(.f, ...){
-
-  suppressWarnings(
-    rlang::try_fetch(
-             rlang::eval_tidy(.f(...)),
-             error = function(err) err,
-             warning = function(warn, result){
-               list("warn" = warn, "result" = .f(...))
-             }
-           )
-  )
-
 }
 
 errs_warn_mess <- function(.f, ...){
@@ -199,16 +185,15 @@ errs_warn_mess <- function(.f, ...){
            )
 }
 
+
 #' Capture all errors, warnings and messages.
 #' @param .f A function to decorate.
-#' @param strict Controls if the decorated function should catch only errors (1),
-#' errors and warnings (2, the default), errors and warnings but not fail (3, for example,
-#' if you wish to catpure warnings announcing that a function will be deprecated or suchlike)
-#' or errors, warnings and messages (4).
-#' @return A function which returns a list. The first element of the list, $value, is the result of
-#' the original function .f applied to its inputs. The second element, $log is NULL in case everything
-#' goes well. In case of error/warning/message, $value is NA and $log holds the message.
-#' purely() is used by record() to allow the latter to handle errors.
+#' @param strict Controls if the decorated function should catch only errors (1), errors and
+#'   warnings (2, the default) or errors, warnings and messages (3).
+#' @return A function which returns a list. The first element of the list, `$value`,
+#' is the result of the original function `.f` applied to its inputs. The second element, `$log` is
+#' `NULL` in case everything goes well. In case of error/warning/message, `$value` is NA and `$log`
+#' holds the message. `purely()` is used by `record()` to allow the latter to handle errors.
 #' @importFrom rlang try_fetch eval_tidy cnd_message
 #' @importFrom maybe just nothing is_nothing
 #' @examples
@@ -232,7 +217,6 @@ purely <- function(.f, strict = 2){
       res <- switch(strict,
                     only_errors(.f, .value,  ...),
                     errors_and_warnings(.f, .value, ...),
-                    errors_and_inoffensive_warnings(.f, .value, ...),
                     errs_warn_mess(.f, .value, ...))
 
       final_result <- list(
@@ -240,16 +224,17 @@ purely <- function(.f, strict = 2){
         log_df = NULL
       )
 
-      final_result$value <- dplyr::case_when(
-           strict == 3 & "warning" %in% class(res$result) ~ maybe::just(res$result),
-           any(c("error", "warning", "message") %in% class(res)) ~ maybe::nothing(),
-           TRUE ~ maybe::just(res))
+      final_result$value <- if(any(c("error", "warning", "message") %in% class(res))){
+                              maybe::nothing()
+                            } else {
+                              maybe::just(res)
+                            }
 
-      final_result$log_df <- dplyr::case_when(
-           strict == 3 & "warning" %in% class(res$result) ~ rlang::cnd_message(res$warn),
-           any(c("error", "warning", "message") %in% class(res)) ~ rlang::cnd_message(res),
-           TRUE ~ NA)
-
+      final_result$log_df <- if(any(c("error", "warning", "message") %in% class(res))){
+                               rlang::cnd_message(res)
+                             } else {
+                               NA
+                             }
     }
 
     final_result
