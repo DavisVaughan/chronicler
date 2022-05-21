@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">chronicler</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,6 +27,7 @@
     <a class="dropdown-item" href="../articles/advanced-topics.html">A non-mathematician's introduction to monads</a>
     <a class="dropdown-item" href="../articles/maybe-monad.html">The Maybe monad</a>
     <a class="dropdown-item" href="../articles/real-world-example.html">A real world example</a>
+    <a class="dropdown-item" href="../articles/self-documenting-ggplot2.html">Decorating {ggplot2} functions</a>
   </div>
 </li>
 <li class="nav-item">
@@ -79,7 +80,7 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">r_sqrt</span> <span class="op">&lt;-</span> <span class="fu"><a href="record.html">record</a></span><span class="op">(</span><span class="va">sqrt</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">r_exp</span> <span class="op">&lt;-</span> <span class="fu"><a href="record.html">record</a></span><span class="op">(</span><span class="va">exp</span><span class="op">)</span></span>
 <span class="r-in"><span class="fl">3</span> |&gt; <span class="fu">r_sqrt</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;=%</span> <span class="fu">r_exp</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;U+2714&gt; Value computed successfully:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> OK! Value computed successfully:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ---------------</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Just</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5.652234</span>
@@ -87,7 +88,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> ---------------</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> This is an object of type `chronicle`.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Retrieve the value of this object with pick(.c, "value").</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> To read the log of this object, call read_log(.c).</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> To read the log of this object, call read.log(.c).</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>

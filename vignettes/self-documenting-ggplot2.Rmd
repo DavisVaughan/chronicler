@@ -1,0 +1,69 @@
+---
+title: "Decorating {ggplot2} functions"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Decorating {ggplot2} functions}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, include = FALSE}
+library(chronicler)
+library(ggplot2)
+```
+
+Since version 0.3.0, `{chronicler}` ships with the `ggrecord()` function, which allows
+to decorate functions from the `{ggplot2}` package. It is thus possible to create
+`chronicle` objects where the value is a ggplot. Here is an example:
+
+```{r}
+r_ggplot <- ggrecord(ggplot)
+r_geom_point <- ggrecord(geom_point)
+r_labs <- ggrecord(labs)
+```
+
+```{r}
+a <- r_ggplot(mtcars) %>+%
+  r_geom_point(aes(y = mpg, x = hp)) %>+%
+  r_labs(title = "This plot carries a log with it.",
+         subtitle = "Read it with read.log()")
+```
+
+In order to add the decorated `{ggplot2}` layers on top of each other, the `%>+%` operator
+must be used, instead of `+`.
+
+To print the plot:
+
+```{r}
+pick(a, "value")
+```
+
+To read the log, call `read.log()`, like for any other `chronicle` object:
+
+```{r}
+read.log(a)
+```
+
+It is also possible to put the log in the bottom right of the plot, using `document_gg()`
+
+```{r}
+b <- document_gg(a)
+
+pick(b, "value")
+```
+
+The reason why `ggrecord()` must be used when decorating `{ggplot2}` functions and not
+`record()` is because these functions work very differently.
+
+The `+` for ggplot objects acts as a way to “add” layers, such as `geom_point(mpg, hp)` 
+on top of each other. Quite often, users of `{ggplot2}` forget to use `+` and use the `%>%` operator instead.
+This cannot work however, because %>% and + do very different things. %>% takes its first argument
+and passes it as the first argument of its second argument, in other words this:
+

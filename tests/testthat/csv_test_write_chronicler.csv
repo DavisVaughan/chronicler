@@ -1,0 +1,15 @@
+The first 9 lines of this .csv file constitute a log.
+Skip the first 9 lines to read in the data.
+Complete log:
+OK! as_chronicle(NA) ran successfully at 2022-05-21 13:19:54
+OK! dplyr::select(am,starts_with("c")) ran successfully at 2022-05-21 13:19:54
+OK! dplyr::filter(am == 1) ran successfully at 2022-05-21 13:19:54
+OK! dplyr::group_by(carb) ran successfully at 2022-05-21 13:19:54
+OK! dplyr::summarise(mean(cyl)) ran successfully at 2022-05-21 13:19:54
+Total running time: 0.0130324363708496 secs
+"carb","mean_cyl"
+1,4
+2,4
+4,6.66666666666667
+6,6
+8,8

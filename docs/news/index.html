@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">chronicler</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,6 +27,7 @@
     <a class="dropdown-item" href="../articles/advanced-topics.html">A non-mathematician's introduction to monads</a>
     <a class="dropdown-item" href="../articles/maybe-monad.html">The Maybe monad</a>
     <a class="dropdown-item" href="../articles/real-world-example.html">A real world example</a>
+    <a class="dropdown-item" href="../articles/self-documenting-ggplot2.html">Decorating {ggplot2} functions</a>
   </div>
 </li>
 <li class="active nav-item">
@@ -53,7 +54,24 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.2.0" id="chronicler-020">chronicler 0.2.0<a class="anchor" aria-label="anchor" href="#chronicler-020"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.3.0" id="chronicler-030">chronicler 0.3.0<a class="anchor" aria-label="anchor" href="#chronicler-030"></a></h2>
+<div class="section level3">
+<h3 id="new-features-0-3-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-3-0"></a></h3>
+<ul><li>Renamed <code>read_log()</code> to <code><a href="../reference/read.log.html">read.log()</a></code> to avoid clashing with <code><a href="https://readr.tidyverse.org/reference/read_log.html" class="external-link">readr::read_log()</a></code>
+</li>
+<li>Possible to log {ggplot2} functions using <code>ggrecord()</code>.</li>
+<li>Possible to save datasets alongside their logs to disk using <code><a href="../reference/write_chronicle.html">write_chronicle()</a></code>.</li>
+<li>filter2(), which works exactly like dplyr::filter() but raises a warning if the data frame returned is empty.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-vignettes-0-3-0">New vignettes<a class="anchor" aria-label="anchor" href="#new-vignettes-0-3-0"></a></h3>
+<ul><li><em>Saving ‘chronicle’ objects to disk</em></li>
+<li><em>Creating self-documenting ggplots</em></li>
+<li><em>How to write safer programs</em></li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.0" id="chronicler-020">chronicler 0.2.0<a class="anchor" aria-label="anchor" href="#chronicler-020"></a></h2><p class="text-muted">CRAN release: 2022-05-17</p>
 <div class="section level3">
 <h3 id="new-features-0-2-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-2-0"></a></h3>
 <ul><li>First CRAN release</li>

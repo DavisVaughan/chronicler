@@ -32,7 +32,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">chronicler</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,6 +50,7 @@
     <a class="dropdown-item" href="../articles/advanced-topics.html">A non-mathematician's introduction to monads</a>
     <a class="dropdown-item" href="../articles/maybe-monad.html">The Maybe monad</a>
     <a class="dropdown-item" href="../articles/real-world-example.html">A real world example</a>
+    <a class="dropdown-item" href="../articles/self-documenting-ggplot2.html">Decorating {ggplot2} functions</a>
   </div>
 </li>
 <li class="nav-item">
@@ -146,10 +147,10 @@
 <p><code>avia_monthly</code> is an object of class <code>chronicle</code>, but in essence, it is just a list, with its own print method:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">avia_monthly</span>
-<span class="co">#&gt; &lt;U+2714&gt; Value computed successfully:</span>
+<span class="co">#&gt; OK! Value computed successfully:</span>
 <span class="co">#&gt; ---------------</span>
 <span class="co">#&gt; Just</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 7,632 x 3</span></span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 7,632 × 3</span></span>
 <span class="co">#&gt;    destination     date       passengers</span>
 <span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span>
 <span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> LU_ELLX_AT_LOWW 2018-03-01 3967      </span>
@@ -162,29 +163,29 @@
 <span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> LU_ELLX_AT_LOWW 2017-08-01 4399      </span>
 <span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> LU_ELLX_AT_LOWW 2017-07-01 4277      </span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">10</span> LU_ELLX_AT_LOWW 2017-06-01 4674      </span>
-<span class="co">#&gt; <span style="color: #949494;"># ... with 7,622 more rows</span></span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 7,622 more rows</span></span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; ---------------</span>
 <span class="co">#&gt; This is an object of type `chronicle`.</span>
 <span class="co">#&gt; Retrieve the value of this object with pick(.c, "value").</span>
-<span class="co">#&gt; To read the log of this object, call read_log(.c).</span></code></pre></div>
+<span class="co">#&gt; To read the log of this object, call read.log(.c).</span></code></pre></div>
 <p>Now that the data is clean, we can read the log:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/read_log.html">read_log</a></span><span class="op">(</span><span class="va">avia_monthly</span><span class="op">)</span>
-<span class="co">#&gt; [1] "Complete log:"                                                                                                           </span>
-<span class="co">#&gt; [2] "&lt;U+2714&gt; select(1,contains(\"20\")) ran successfully at 2022-05-12 13:08:37"                                             </span>
-<span class="co">#&gt; [3] "&lt;U+2714&gt; pivot_longer(-starts_with(\"unit\"),date,passengers) ran successfully at 2022-05-12 13:08:37"                   </span>
-<span class="co">#&gt; [4] "&lt;U+2714&gt; separate(1,c(\"unit\", \"tra_meas\", \"air_pr\\\\time\"),,) ran successfully at 2022-05-12 13:08:37"            </span>
-<span class="co">#&gt; [5] "&lt;U+2714&gt; filter(tra_meas == \"PAS_BRD_ARR\",!is.na(passengers),str_detect(date, \"M\")) ran successfully at 2022-05-12 13:08:39"</span>
-<span class="co">#&gt; [6] "&lt;U+2714&gt; mutate(paste0(date, \"01\"),ymd(date)) ran successfully at 2022-05-12 13:08:39"                                 </span>
-<span class="co">#&gt; [7] "&lt;U+2714&gt; select(air_pr\\time,date,passengers) ran successfully at 2022-05-12 13:08:39"                                   </span>
-<span class="co">#&gt; [8] "Total running time: 1.86402106285095 secs"</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="../reference/read.log.html">read.log</a></span><span class="op">(</span><span class="va">avia_monthly</span><span class="op">)</span>
+<span class="co">#&gt; [1] "Complete log:"                                                                                                             </span>
+<span class="co">#&gt; [2] "OK! select(1,contains(\"20\")) ran successfully at 2022-05-21 22:25:21"                                                    </span>
+<span class="co">#&gt; [3] "OK! pivot_longer(-starts_with(\"unit\"),date,passengers) ran successfully at 2022-05-21 22:25:21"                          </span>
+<span class="co">#&gt; [4] "OK! separate(1,c(\"unit\", \"tra_meas\", \"air_pr\\\\time\"),,) ran successfully at 2022-05-21 22:25:21"                   </span>
+<span class="co">#&gt; [5] "OK! filter(tra_meas == \"PAS_BRD_ARR\",!is.na(passengers),str_detect(date, \"M\")) ran successfully at 2022-05-21 22:25:23"</span>
+<span class="co">#&gt; [6] "OK! mutate(paste0(date, \"01\"),ymd(date)) ran successfully at 2022-05-21 22:25:23"                                        </span>
+<span class="co">#&gt; [7] "OK! select(air_pr\\time,date,passengers) ran successfully at 2022-05-21 22:25:23"                                          </span>
+<span class="co">#&gt; [8] "Total running time: 1.86211466789246 secs"</span></code></pre></div>
 <p>This is especially useful if the object <code>avia_monthly</code> gets saved using <code><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">saveRDS()</a></code>. People that then read this object, can read the log to know what happened and reproduce the steps if necessary.</p>
 <p>Let’s take a look at the final data set:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">avia_monthly</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="../reference/pick.html">pick</a></span><span class="op">(</span><span class="st">"value"</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 7,632 x 3</span></span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 7,632 × 3</span></span>
 <span class="co">#&gt;    destination     date       passengers</span>
 <span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span>
 <span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> LU_ELLX_AT_LOWW 2018-03-01 3967      </span>
@@ -197,7 +198,7 @@
 <span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> LU_ELLX_AT_LOWW 2017-08-01 4399      </span>
 <span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> LU_ELLX_AT_LOWW 2017-07-01 4277      </span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">10</span> LU_ELLX_AT_LOWW 2017-06-01 4674      </span>
-<span class="co">#&gt; <span style="color: #949494;"># ... with 7,622 more rows</span></span></code></pre></div>
+<span class="co">#&gt; <span style="color: #949494;"># … with 7,622 more rows</span></span></code></pre></div>
 <p>It is also possible to take a look at the underlying <code>.log_df</code> object that contains more details, and see the output of the <code>.g</code> argument (which was defined in the beginning as the <code><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim()</a></code> function):</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/check_g.html">check_g</a></span><span class="op">(</span><span class="va">avia_monthly</span><span class="op">)</span>

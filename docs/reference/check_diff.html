@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">chronicler</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,6 +27,7 @@
     <a class="dropdown-item" href="../articles/advanced-topics.html">A non-mathematician's introduction to monads</a>
     <a class="dropdown-item" href="../articles/maybe-monad.html">The Maybe monad</a>
     <a class="dropdown-item" href="../articles/real-world-example.html">A real world example</a>
+    <a class="dropdown-item" href="../articles/self-documenting-ggplot2.html">Decorating {ggplot2} functions</a>
   </div>
 </li>
 <li class="nav-item">
@@ -86,7 +87,7 @@ a diff of the input and output of the decorated function gets saved, and if
 <span class="r-in"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">r_subset</span><span class="op">(</span><span class="va">mtcars</span>, select <span class="op">=</span> <span class="va">am</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">check_diff</span><span class="op">(</span><span class="va">result</span><span class="op">)</span> <span class="co"># &lt;- this is the data frame listing the operations and the accompanying diffs</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ops_number function                                            diff_obj</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1          1   subset &lt;S4 class 'Diff' [package "diffobj"] with 14 slots&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1          1   subset &lt;S4 class ‘Diff’ [package “diffobj”] with 14 slots&gt;</span>
 <span class="r-in"><span class="fu">check_diff</span><span class="op">(</span><span class="va">result</span><span class="op">)</span><span class="op">$</span><span class="va">diff_obj</span> <span class="co"># &lt;- actually look at the diffs</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">&lt;</span> <span style="color: #BBBB00;">str(input)</span>                             <span style="color: #0000BB;">&gt;</span> <span style="color: #0000BB;">str(output)</span>                          </span>

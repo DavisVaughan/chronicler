@@ -4,6 +4,12 @@
     <loc>https://b-rodrigues.github.io/chronicler/404.html</loc>
   </url>
   <url>
+    <loc>https://b-rodrigues.github.io/chronicler/LICENSE-text.html</loc>
+  </url>
+  <url>
+    <loc>https://b-rodrigues.github.io/chronicler/LICENSE.html</loc>
+  </url>
+  <url>
     <loc>https://b-rodrigues.github.io/chronicler/articles/advanced-topics.html</loc>
   </url>
   <url>
@@ -16,16 +22,13 @@
     <loc>https://b-rodrigues.github.io/chronicler/articles/real-world-example.html</loc>
   </url>
   <url>
+    <loc>https://b-rodrigues.github.io/chronicler/articles/self-documenting-ggplot2.html</loc>
+  </url>
+  <url>
     <loc>https://b-rodrigues.github.io/chronicler/authors.html</loc>
   </url>
   <url>
     <loc>https://b-rodrigues.github.io/chronicler/index.html</loc>
-  </url>
-  <url>
-    <loc>https://b-rodrigues.github.io/chronicler/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://b-rodrigues.github.io/chronicler/LICENSE.html</loc>
   </url>
   <url>
     <loc>https://b-rodrigues.github.io/chronicler/news/index.html</loc>
@@ -46,10 +49,10 @@
     <loc>https://b-rodrigues.github.io/chronicler/reference/check_g.html</loc>
   </url>
   <url>
-    <loc>https://b-rodrigues.github.io/chronicler/reference/flatten_record.html</loc>
+    <loc>https://b-rodrigues.github.io/chronicler/reference/flat_chronicle.html</loc>
   </url>
   <url>
-    <loc>https://b-rodrigues.github.io/chronicler/reference/flat_chronicle.html</loc>
+    <loc>https://b-rodrigues.github.io/chronicler/reference/flatten_record.html</loc>
   </url>
   <url>
     <loc>https://b-rodrigues.github.io/chronicler/reference/fmap_chronicle.html</loc>
@@ -82,6 +85,9 @@
     <loc>https://b-rodrigues.github.io/chronicler/reference/purely.html</loc>
   </url>
   <url>
+    <loc>https://b-rodrigues.github.io/chronicler/reference/read.log.html</loc>
+  </url>
+  <url>
     <loc>https://b-rodrigues.github.io/chronicler/reference/read_log.html</loc>
   </url>
   <url>
@@ -89,5 +95,8 @@
   </url>
   <url>
     <loc>https://b-rodrigues.github.io/chronicler/reference/record_many.html</loc>
+  </url>
+  <url>
+    <loc>https://b-rodrigues.github.io/chronicler/reference/write_chronicle.html</loc>
   </url>
 </urlset>
