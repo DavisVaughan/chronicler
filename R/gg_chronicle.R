@@ -138,3 +138,21 @@ document_gg <- function(.c, overwrite_caption = TRUE){
 
 
 }
+
+#' @export
+document_gg2 <- function(.c, layout = "
+    AAAA
+    AAAA
+    BBBB
+    "
+  ){
+
+  .c2 <- ggplot() +
+    annotate("text", x = .5, y = .5, label = paste0(read.log(.c), collapse = "\n")) +
+    theme_void()
+
+  patchwork:::`&.gg`(
+                patchwork:::`/.ggplot`(pick(a, "value"), .c2),
+                plot_layout(design = layout))
+
+}
