@@ -3,6 +3,14 @@ ggpurely <- function(.f, strict = 2){
 
   function(..., .log_df = "Log start..."){
 
+    if(maybe::is_nothing(...)){
+
+      final_result <- list(
+        value = maybe::nothing(),
+        log_df = "A `Nothing` was given as input."
+      )
+
+    } else {
       res <- switch(strict,
                     only_errors(.f, ...),
                     errors_and_warnings(.f, ...),
@@ -24,6 +32,7 @@ ggpurely <- function(.f, strict = 2){
                              } else {
                                NA
                              }
+      }
 
     final_result
     }
@@ -102,8 +111,11 @@ maybe_ggadd <- function(e1, e2){
   gg1 <- maybe::from_maybe(e1$value, default = maybe::nothing())
   gg2 <- maybe::from_maybe(e2$value, default = maybe::nothing())
 
-  maybe::maybe(ggplot2::`%+%`)(gg1, gg2)
-
+  if(maybe::is_nothing(gg1) | maybe::is_nothing(gg2)){
+    return(maybe::nothing())
+  } else {
+    maybe::maybe(ggplot2::`%+%`)(gg1, gg2)
+  }
 }
 
 #' @export

@@ -45,8 +45,8 @@ test_that("Test writing chronicle as xlsx", {
   result_value <- readxl::read_excel(tmp_path,
                                      sheet = "value")
 
-  result_log <- pull(readxl::read_excel(tmp_path,
-                                        sheet = "log"))
+  result_log <- dplyr::pull(readxl::read_excel(tmp_path,
+                                               sheet = "log"))
 
   expect_equal(pick(result_pipe, "value"), result_value)
   expect_equal(read.log(result_pipe), result_log)

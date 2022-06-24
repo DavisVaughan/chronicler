@@ -61,6 +61,31 @@ test_that("document_gg works", {
 
 })
 
+test_that("document_gg fails successfully", {
+
+  skip_on_cran()
+
+  r_ggplot <- ggrecord(ggplot)
+  r_geom_point <- ggrecord(geom_point)
+  r_labs <- ggrecord(labs)
+
+  a <- r_ggplot(mtcars) %>+%
+    r_geom_point(aes(y = mg, x = hp, colour = am)) %>+%
+    r_labs(title = paste0("ggrecorded functions can be added, generated on: ", Sys.Date()),
+           subtitle = "If you see this plot, it works",
+           caption = "This is an example caption")
+
+
+
+  a <- document_gg(a)
+
+  print(maybe::from_maybe(a$value,
+                          default = maybe::nothing()))
+
+  expect_true(TRUE)
+
+})
+
 test_that("purely works on ggplot", {
   expect_true(
     is.ggplot(maybe::from_maybe(
