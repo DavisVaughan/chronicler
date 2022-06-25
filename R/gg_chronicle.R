@@ -168,3 +168,122 @@ document_gg2 <- function(.c, layout = "
                 plot_layout(design = layout))
 
 }
+
+
+ggadd <- function(e1, e2, strict = 1){
+
+  switch(strict,
+         only_errors(`+`, e1, e2),
+         errors_and_warnings(`+`, e1, e2),
+         errs_warn_mess(`+`, e1, e2))
+
+
+}
+
+
+maybe_ggadd <- function(e1, e2){
+
+  gg1 <- maybe::from_maybe(e1$value, default = maybe::nothing())
+  gg2 <- maybe::from_maybe(e2$value, default = maybe::nothing())
+
+  if(maybe::is_nothing(gg1) | maybe::is_nothing(gg2)){
+    return(maybe::nothing())
+  } else {
+    maybe::maybe(ggplot2::`%+%`)(gg1, gg2)
+  }
+}
+
+#' @export
+`%>+%` <- function(e1, e2){
+
+  structure(
+    list("value" =  maybe_ggadd(e1, e2)$value,
+         "log_df" = rbind(e1$log_df,
+                          e2$log_df)),
+    class = "chronicle"
+  )
+
+}
+
+ggadd <- function(e1, e2, strict = 1, .log_df = "Starting ggplot..."){
+
+
+  intermediary_result <- list(
+    value = NULL,
+    log_df = NULL
+    )
+
+  # when using ggplot, errors can only get
+  # captured at printing time
+  gg <- e1$value + e2$value
+
+  res <- switch(strict,
+                only_errors(print, gg),
+                errors_and_warnings(print, gg),
+                errs_warn_mess(print, gg))
+
+
+  intermediary_result$value <- if(any(c("error", "warning", "message") %in% class(res))){
+                          maybe::nothing()
+                        } else {
+                          maybe::just(res)
+                        }
+
+  intermediary_result$log_df <- if(any(c("error", "warning", "message") %in% class(res))){
+                           rlang::cnd_message(res)
+                         } else {
+                           NA
+                         }
+
+  structure(
+    list("value" =  intermediary_result$value,
+         "log_df" = rbind(e1$log_df,
+                          e2$log_df)),
+    class = "chronicle"
+  )
+  
+
+  intermediary_result
+
+
+}
+
+ggpurely2 <- function(.f, strict = 2){
+
+  function(..., .log_df = "Log start..."){
+
+    if(maybe::is_nothing(...)){
+
+      final_result <- list(
+        value = maybe::nothing(),
+        log_df = "A `Nothing` was given as input."
+      )
+
+    } else {
+      res <- switch(strict,
+                    only_errors(.f, ...),
+                    errors_and_warnings(.f, ...),
+                    errs_warn_mess(.f, ...))
+
+      final_result <- list(
+        value = NULL,
+        log_df = NULL
+      )
+
+      final_result$value <- if(any(c("error", "warning", "message") %in% class(res))){
+                              maybe::nothing()
+                            } else {
+                              maybe::just(res)
+                            }
+
+      final_result$log_df <- if(any(c("error", "warning", "message") %in% class(res))){
+                               rlang::cnd_message(res)
+                             } else {
+                               NA
+                             }
+      }
+
+    final_result
+    }
+
+}
