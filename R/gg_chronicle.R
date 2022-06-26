@@ -287,3 +287,55 @@ ggpurely2 <- function(.f, strict = 2){
     }
 
 }
+
+make_log_df2 <- function(ops_number = 1,
+                        fstring,
+                        args){
+
+
+  tibble::tibble(
+            "ops_number" = ops_number,
+            "function" = fstring,
+            "arguments" = args,
+            #"message" = paste0(res_pure$log_df, collapse = " "),
+            "lag_outcome" = NA
+          )
+
+}
+
+ggrecord2 <- function(.f){
+
+  fstring <- deparse1(substitute(.f))
+
+  function(...){
+
+    args <- paste0(rlang::enexprs(...), collapse = ",")
+
+    #start <- Sys.time()
+    res_pure <- .f(...)
+    #end <- Sys.time()
+
+
+      log_df <- make_log_df2(
+        fstring = fstring,
+        args = args)
+
+    log_df <- dplyr::mutate(
+                             log_df,
+                       ops_number = dplyr::row_number())
+
+    list_result <- list(
+      value = res_pure,
+      log_df = log_df
+    )
+
+    structure(list_result, class = "chronicle")
+
+  }
+
+}
+
+
+r_ggplot <- ggrecord2(ggplot)
+r_geom_point <- ggrecord2(geom_point)
+r_labs <- ggrecord2(labs)
