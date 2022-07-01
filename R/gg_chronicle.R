@@ -125,7 +125,7 @@ maybe_ggadd <- function(e1, e2){
     list("value" =  maybe_ggadd(e1, e2),
          "log_df" = rbind(e1$log_df,
                        e2$log_df)),
-    class = "chronicle"
+    class = "ggchronicle"
   )
 
 }
@@ -248,45 +248,45 @@ ggadd <- function(e1, e2, strict = 1, .log_df = "Starting ggplot..."){
 
 }
 
-ggpurely2 <- function(.f, strict = 2){
-
-  function(..., .log_df = "Log start..."){
-
-    if(maybe::is_nothing(...)){
-
-      final_result <- list(
-        value = maybe::nothing(),
-        log_df = "A `Nothing` was given as input."
-      )
-
-    } else {
-      res <- switch(strict,
-                    only_errors(.f, ...),
-                    errors_and_warnings(.f, ...),
-                    errs_warn_mess(.f, ...))
-
-      final_result <- list(
-        value = NULL,
-        log_df = NULL
-      )
-
-      final_result$value <- if(any(c("error", "warning", "message") %in% class(res))){
-                              maybe::nothing()
-                            } else {
-                              maybe::just(res)
-                            }
-
-      final_result$log_df <- if(any(c("error", "warning", "message") %in% class(res))){
-                               rlang::cnd_message(res)
-                             } else {
-                               NA
-                             }
-      }
-
-    final_result
-    }
-
-}
+#ggpurely2 <- function(.f, strict = 2){
+#
+  #function(..., .log_df = "Log start..."){
+#
+    #if(maybe::is_nothing(...)){
+#
+      #final_result <- list(
+        #value = maybe::nothing(),
+        #log_df = "A `Nothing` was given as input."
+      #)
+#
+    #} else {
+      #res <- switch(strict,
+                    #only_errors(.f, ...),
+                    #errors_and_warnings(.f, ...),
+                    #errs_warn_mess(.f, ...))
+#
+      #final_result <- list(
+        #value = NULL,
+        #log_df = NULL
+      #)
+#
+      #final_result$value <- if(any(c("error", "warning", "message") %in% class(res))){
+                              #maybe::nothing()
+                            #} else {
+                              #maybe::just(res)
+                            #}
+#
+      #final_result$log_df <- if(any(c("error", "warning", "message") %in% class(res))){
+                               #rlang::cnd_message(res)
+                             #} else {
+                               #NA
+                             #}
+      #}
+#
+    #final_result
+    #}
+#
+#}
 
 make_log_df2 <- function(ops_number = 1,
                         fstring,
@@ -311,25 +311,24 @@ ggrecord2 <- function(.f){
 
     args <- paste0(rlang::enexprs(...), collapse = ",")
 
-    #start <- Sys.time()
     res_pure <- .f(...)
-    #end <- Sys.time()
 
 
-      log_df <- make_log_df2(
-        fstring = fstring,
-        args = args)
+    log_df <- make_log_df2(
+      fstring = fstring,
+      args = args)
 
     log_df <- dplyr::mutate(
                              log_df,
                        ops_number = dplyr::row_number())
 
-    list_result <- list(
+  #  list_result <- list(
+  list_result <- list(
       value = res_pure,
       log_df = log_df
     )
 
-    structure(list_result, class = "chronicle")
+    structure(list_result, class = "ggchronicle")
 
   }
 
@@ -339,3 +338,5 @@ ggrecord2 <- function(.f){
 r_ggplot <- ggrecord2(ggplot)
 r_geom_point <- ggrecord2(geom_point)
 r_labs <- ggrecord2(labs)
+
+ggadd(r_ggplot(mtcars), r_geom_point(aes(y = hp, x = mp)))
