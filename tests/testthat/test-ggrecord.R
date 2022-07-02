@@ -94,3 +94,14 @@ test_that("purely works on ggplot", {
              )
         )
 })
+
+test_that("ggrecord2 works",{
+
+  r_ggplot <- ggrecord2(ggplot)
+  r_geom_point <- ggrecord2(geom_point)
+  r_ggtitle <- ggrecord2(ggtitle)
+
+  r_ggplot(mtcars) %>+%
+    r_geom_point(aes(y = hp, x = mpg)) %>+%
+    r_ggtitle(label = "You can read this? Then it works")
+})

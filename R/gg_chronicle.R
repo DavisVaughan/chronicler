@@ -106,29 +106,6 @@ ggrecord <- function(.f, .g = (\(x) NA), strict = 2){
 
 }
 
-maybe_ggadd <- function(e1, e2){
-
-  gg1 <- maybe::from_maybe(e1$value, default = maybe::nothing())
-  gg2 <- maybe::from_maybe(e2$value, default = maybe::nothing())
-
-  if(maybe::is_nothing(gg1) | maybe::is_nothing(gg2)){
-    return(maybe::nothing())
-  } else {
-    maybe::maybe(ggplot2::`%+%`)(gg1, gg2)
-  }
-}
-
-#' @export
-`%>+%` <- function(e1, e2){
-
-  structure(
-    list("value" =  maybe_ggadd(e1, e2),
-         "log_df" = rbind(e1$log_df,
-                       e2$log_df)),
-    class = "ggchronicle"
-  )
-
-}
 
 #' @export
 document_gg <- function(.c, overwrite_caption = TRUE){
@@ -170,15 +147,6 @@ document_gg2 <- function(.c, layout = "
 }
 
 
-ggadd <- function(e1, e2, strict = 1){
-
-  switch(strict,
-         only_errors(`+`, e1, e2),
-         errors_and_warnings(`+`, e1, e2),
-         errs_warn_mess(`+`, e1, e2))
-
-
-}
 
 
 maybe_ggadd <- function(e1, e2){
@@ -193,60 +161,7 @@ maybe_ggadd <- function(e1, e2){
   }
 }
 
-#' @export
-`%>+%` <- function(e1, e2){
 
-  structure(
-    list("value" =  maybe_ggadd(e1, e2)$value,
-         "log_df" = rbind(e1$log_df,
-                          e2$log_df)),
-    class = "chronicle"
-  )
-
-}
-
-ggadd <- function(e1, e2, strict = 1, .log_df = "Starting ggplot..."){
-
-
-  intermediary_result <- list(
-    value = NULL,
-    log_df = NULL
-    )
-
-  # when using ggplot, errors can only get
-  # captured at printing time
-  gg <- e1$value + e2$value
-
-  res <- switch(strict,
-                only_errors(print, gg),
-                errors_and_warnings(print, gg),
-                errs_warn_mess(print, gg))
-
-
-  intermediary_result$value <- if(any(c("error", "warning", "message") %in% class(res))){
-                          maybe::nothing()
-                        } else {
-                          maybe::just(res)
-                        }
-
-  intermediary_result$log_df <- if(any(c("error", "warning", "message") %in% class(res))){
-                           rlang::cnd_message(res)
-                         } else {
-                           NA
-                         }
-
-  structure(
-    list("value" =  intermediary_result$value,
-         "log_df" = rbind(e1$log_df,
-                          e2$log_df)),
-    class = "chronicle"
-  )
-  
-
-  intermediary_result
-
-
-}
 
 #ggpurely2 <- function(.f, strict = 2){
 #
@@ -324,7 +239,7 @@ ggrecord2 <- function(.f){
 
   #  list_result <- list(
   list_result <- list(
-      value = res_pure,
+      value = maybe::just(res_pure),
       log_df = log_df
     )
 
@@ -334,9 +249,70 @@ ggrecord2 <- function(.f){
 
 }
 
+#' @export
+ggadd <- function(e1, e2, strict = 1, .log_df = "Starting ggplot..."){
 
-r_ggplot <- ggrecord2(ggplot)
-r_geom_point <- ggrecord2(geom_point)
-r_labs <- ggrecord2(labs)
 
-ggadd(r_ggplot(mtcars), r_geom_point(aes(y = hp, x = mp)))
+  intermediary_result <- list(
+    value = NULL,
+    log_df = NULL
+    )
+
+  # when using ggplot, errors can only get
+  # captured at printing time
+  gg <- maybe::from_maybe(e1$value, default = maybe::nothing()) +
+    maybe::from_maybe(e2$value, default = maybe::nothing())
+
+  res <- switch(strict,
+                only_errors(print, gg),
+                errors_and_warnings(print, gg),
+                errs_warn_mess(print, gg))
+
+
+  intermediary_result$value <- if(any(c("error", "warning", "message") %in% class(res))){
+                          maybe::nothing()
+                        } else {
+                          maybe::just(res)
+                        }
+
+  intermediary_result$log_df <- if(any(c("error", "warning", "message") %in% class(res))){
+                           rlang::cnd_message(res)
+                         } else {
+                           NA
+                         }
+
+  structure(
+    list("value" =  intermediary_result$value,
+         "log_df" = rbind(e1$log_df,
+                          e2$log_df)),
+    class = "chronicle"
+  )
+  
+
+  intermediary_result
+
+
+}
+
+                                        #
+                                        #ggadd <- function(e1, e2, strict = 1){
+                                        #
+                                        #  switch(strict,
+                                        #         only_errors(`+`, e1, e2),
+                                        #         errors_and_warnings(`+`, e1, e2),
+                                        #         errs_warn_mess(`+`, e1, e2))
+                                        #
+                                        #
+                                        #}
+
+#' @export
+`%>+%` <- function(e1, e2){
+
+  structure(
+    list("value" =  ggadd(e1, e2)$value,
+         "log_df" = rbind(e1$log_df,
+                          e2$log_df)),
+    class = "chronicle"
+  )
+
+}
